@@ -11,7 +11,7 @@ public class Door : MonoBehaviour
         if (other.CompareTag("Moon"))
         {
             SceneManager.LoadScene("Moon");
-            
+            GameManager.Instance.UIManager.ExitButton.gameObject.SetActive(true);
         }
     }
 

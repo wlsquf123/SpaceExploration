@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     public float MaxO2 = 100f;
     public float O2 = 0; // 산소
-
+    public bool isO2 = false; // 탑승 시 산소 유지 : 하선 시 산소 작동
 
     private void Awake()
     {
@@ -36,13 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        O2 -= Time.deltaTime; // 산소 감소
-
-        if (O2 <= 0)
-        {
-            Time.timeScale = 0f;
-            UIManager.ExitButtons(0);
-        }
+        O2State(); // 산소 상태
     }
 
     public void Arrived()
@@ -50,5 +44,19 @@ public class GameManager : MonoBehaviour
         isFlying = false;
         currentTarget = null;
         UIManager.DEPButton.gameObject.SetActive(true);
+    }
+
+    public void O2State() //산소 상태
+    {
+        if (isO2)
+        {
+            O2 -= Time.deltaTime; // 산소 감소
+
+        }
+        if (O2 <= 0)
+        {
+            Time.timeScale = 0f;
+            UIManager.ExitButtons(0);
+        }
     }
 }

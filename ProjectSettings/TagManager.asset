@@ -12,6 +12,7 @@ TagManager:
   - SubCamera
   - ExitButton
   - UIManager
+  - item
   layers:
   - Default
   - TransparentFX
