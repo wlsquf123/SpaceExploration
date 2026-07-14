@@ -6,14 +6,13 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
     public UpgradeManager UpgradeManager;
     public SceneManage SceneManager;
+    public Inventory Inventory;
 
     public Transform moonObject; // 달 오브젝트
 
     public Transform currentTarget;     // 현재 목적지
-    public bool isFlying = false;       // 지금 날아가는 중인가?
 
     public float spaceshipSpeed; // 속도
-    public float di = 500f; // 범위
 
     public float MaxO2 = 100f;
     public float O2 = 0; // 산소
@@ -37,13 +36,18 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         O2State(); // 산소 상태
+
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            UIManager.InventoryOBJ.gameObject.SetActive(!UIManager.InventoryOBJ.activeSelf);
+        }
     }
 
     public void Arrived()
     {
-        isFlying = false;
         currentTarget = null;
         UIManager.DEPButton.gameObject.SetActive(true);
+        UIManager.ExitButton.gameObject.SetActive(true);
     }
 
     public void O2State() //산소 상태

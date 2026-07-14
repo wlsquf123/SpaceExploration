@@ -11,14 +11,21 @@ public class UIManager : MonoBehaviour
 
     public GameObject MainCamera; // 메인 카메라
     public GameObject SubCamera; // 서브 카메라
+
     public GameObject PlayerOBJ; // 플레이어 오브젝트
+    public GameObject InventoryOBJ; // 인벤토리 오브젝트
 
     public Button EnterButton; // 우주선 탑승
     public Button ExitButton; // 우주선 내리기
 
-    public Text statusText; // 도착 남은 시간
+    public Text TimeText; // 도착 남은 시간
     public Text O2Text; // 산소 텍스트
     public Image O2Image; // 산소 이미지
+
+    public Text[] ironText = new Text[3]; // 철 텍스트
+    public Text[] copperText = new Text[3]; // 구리 텍스트
+    public Text[] plasticText = new Text[3]; // 플라스틱 텍스트
+    public Text[] coreText = new Text[2]; // 코어 텍스트
 
     private void Start()
     {
@@ -30,22 +37,19 @@ public class UIManager : MonoBehaviour
     {
         State(); // 상태
 
-        if (GameManager.Instance.isFlying && GameManager.Instance.currentTarget != null)
+        if (GameManager.Instance.currentTarget != null)
         {
-            // ⭐ [수정] transform.position 대신 spaceshipTransform.position을 사용합니다!
+            // 우주선과 목표 지점 사이의 실제 거리
             float distance = Vector3.Distance(spaceshipTransform.position, GameManager.Instance.currentTarget.position);
 
-            // 정지 거리가 300이므로 남은 거리 보정
-            float remainingDistance = Mathf.Max(0, distance - GameManager.Instance.di);
-
             // 시간 = 거리 / 속도
-            float remainingTime = remainingDistance / GameManager.Instance.spaceshipSpeed;
+            float remainingTime = distance / GameManager.Instance.spaceshipSpeed;
 
-            statusText.text = $"도착까지 남은 시간: {remainingTime.ToString("F1")}초";
+            TimeText.text = "도착까지 남은시간: " + remainingTime.ToString("F1") + "초";
         }
         else
         {
-            statusText.text = "";
+            TimeText.text = "";
         }
     }
 
@@ -54,6 +58,20 @@ public class UIManager : MonoBehaviour
         O2Text.text = GameManager.Instance.O2.ToString("F0") + "%"; // 산소량
         O2Image.fillAmount = GameManager.Instance.O2 / GameManager.Instance.MaxO2;
 
+        ironText[0].text = GameManager.Instance.Inventory.iron[0].ToString();
+        ironText[1].text = GameManager.Instance.Inventory.iron[1].ToString();
+        ironText[2].text = GameManager.Instance.Inventory.iron[2].ToString();
+
+        copperText[0].text = GameManager.Instance.Inventory.copper[0].ToString();
+        copperText[1].text = GameManager.Instance.Inventory.copper[1].ToString();
+        copperText[2].text = GameManager.Instance.Inventory.copper[2].ToString();
+
+        plasticText[0].text = GameManager.Instance.Inventory.plastic[0].ToString();
+        plasticText[1].text = GameManager.Instance.Inventory.plastic[1].ToString();
+        plasticText[2].text = GameManager.Instance.Inventory.plastic[2].ToString();
+
+        coreText[0].text = GameManager.Instance.Inventory.core[0].ToString();
+        coreText[1].text = GameManager.Instance.Inventory.core[1].ToString();
     }
 
     public void SelectDestination(int index)
@@ -61,8 +79,8 @@ public class UIManager : MonoBehaviour
         if (index == 1) // 달 이동
         {
             GameManager.Instance.currentTarget = GameManager.Instance.moonObject;
-            GameManager.Instance.isFlying = true;
             DEPButton.gameObject.SetActive(false);
+            TimeText.gameObject.SetActive(true);
         }
     }
 
@@ -88,7 +106,7 @@ public class UIManager : MonoBehaviour
             MainCamera.SetActive(true);
             SubCamera.SetActive(false);
             PlayerOBJ.SetActive(true);
-            statusText.gameObject.SetActive(false); // 남은 도착 시간 숨김
+            TimeText.gameObject.SetActive(false); // 남은 도착 시간 숨김
             DEPButton.gameObject.SetActive(false); // 출항 숨김
             ExitButton.gameObject.SetActive(false);
         }

@@ -3,10 +3,11 @@ using UnityEngine;
 public enum Items
 {
     None,
-    iron, // Ã¶
+    iron, // Ã¶ Ã¶ Ã¶ Ã¶ ÀÌ°Åµµ Áß±¹¾î µÇ³ª
     copper, // ±¸¸®
     plastic, // ÇÃ¶ó½ºÆ½
     core // ÄÚ¾î
+    
 }
 
 public enum Levels
@@ -20,7 +21,9 @@ public enum Levels
 public class Item : MonoBehaviour
 {
     public Levels LevelType;
-    public Items ItemType; 
+    public Items ItemType;
+
+    public GameObject isLight; // ºû È°¼ºÈ­
 
     void Start()
     {

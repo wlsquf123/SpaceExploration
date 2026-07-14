@@ -90,3 +90,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 111392
+  packageName: Space shuttle of the future
+  packageVersion: 1.0
+  assetPath: Assets/SpaceShuttle/Assets/Texture/Shuttle v2/Shuttle_Main_Body_AO.png
+  uploadId: 747435

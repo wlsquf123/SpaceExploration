@@ -159,3 +159,10 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 111392
+  packageName: Space shuttle of the future
+  packageVersion: 1.0
+  assetPath: Assets/SpaceShuttle/Assets/Object/SpaceShuttle v1.fbx
+  uploadId: 747435

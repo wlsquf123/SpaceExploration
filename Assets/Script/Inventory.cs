@@ -2,28 +2,40 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public int iron = 2; // 철 ( 초기자원 2개 )
-    public int copper = 2; // 구리 
-    public int plastic = 2; // 플라스틱
-    public int core; // 코어
+    public int[] iron = { 2, 0, 0 }; // 철 ( 초기자원 2개 )
 
-    public void AddItem(Items ItemType, int add) // 자원을 인벤토리에 넣기
+    public int[] copper = { 2, 0, 0 }; // 구리
+
+    public int[] plastic = { 2, 0, 0 }; // 플라스틱
+
+    public int[] core = { 0, 0 }; // 코어
+
+    public void AddItem(Items ItemType, Levels LvType, int add) // 어떤 자원의 어떤 레벨을 몇 개 추가할지 받는다.
     {
+        int level = (int)LvType - 1;
+
+        // 철
         if (ItemType == Items.iron)
         {
-            iron += add;
+            iron[level] += add;
         }
+        
+        // 구리
         if (ItemType == Items.copper)
         {
-            copper += add;
+            copper[level] += add;
         }
+
+        // 플라스틱
         if (ItemType == Items.plastic)
         {
-            plastic += add;
+            plastic[level] += add;
         }
+
+        // 코어
         if (ItemType == Items.core)
         {
-            core += add;
+            core[level] += add;
         }
     }
 

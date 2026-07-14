@@ -66,3 +66,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 111392
+  packageName: Space shuttle of the future
+  packageVersion: 1.0
+  assetPath: Assets/SpaceShuttle/Assets/Texture/Shuttle v1/Shuttle_Housing_v1_AO.png
+  uploadId: 747435
