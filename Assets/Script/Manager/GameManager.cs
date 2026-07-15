@@ -36,11 +36,29 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         O2State(); // 산소 상태
+        Test();
 
+        // 인벤토리UI
         if (Input.GetKeyUp(KeyCode.I))
         {
-            UIManager.InventoryOBJ.gameObject.SetActive(!UIManager.InventoryOBJ.activeSelf);
+            UIManager.InventoryUI.gameObject.SetActive(!UIManager.InventoryUI.activeSelf);
         }
+    }
+
+    public void Test()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            // 엔진 테스트
+            UpgradeManager.EngineUpgrade();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            // 산소 테스트
+            UpgradeManager.O2Upgrade();
+        }
+        
     }
 
     public void Arrived()
@@ -59,8 +77,9 @@ public class GameManager : MonoBehaviour
         }
         if (O2 <= 0)
         {
-            Time.timeScale = 0f;
             UIManager.ExitButtons(0);
         }
     }
+
+    
 }

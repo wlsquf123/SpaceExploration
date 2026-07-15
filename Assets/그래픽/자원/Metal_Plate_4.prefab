@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc773bcda8d0fa4db1c6b3de5273d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  LevelType: 0
+  LevelType: 1
   ItemType: 1
   isLight: {fileID: 3198873017121542424}
 --- !u!64 &9160109297687420405

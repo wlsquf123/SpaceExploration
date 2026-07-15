@@ -6,19 +6,19 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Button DEPButton; // 출항
+    public Text TimeText; // 도착 남은 시간
 
-    public Transform spaceshipTransform;
+    public Transform spaceshipTransform; // 우주선 위치값
+
+    public Button EnterButton; // 우주선 탑승
+    public Button ExitButton; // 우주선 내리기
 
     public GameObject MainCamera; // 메인 카메라
     public GameObject SubCamera; // 서브 카메라
 
     public GameObject PlayerOBJ; // 플레이어 오브젝트
-    public GameObject InventoryOBJ; // 인벤토리 오브젝트
+    public GameObject InventoryUI; // 인벤토리 UI
 
-    public Button EnterButton; // 우주선 탑승
-    public Button ExitButton; // 우주선 내리기
-
-    public Text TimeText; // 도착 남은 시간
     public Text O2Text; // 산소 텍스트
     public Image O2Image; // 산소 이미지
 
@@ -89,26 +89,37 @@ public class UIManager : MonoBehaviour
 
         if (x == 0) // 우주선 타기
         {
+            PlayerOBJ.SetActive(false); // 플레이어 오브젝트 비활성
+
+            DEPButton.gameObject.SetActive(true); // 출항버튼 활성
+
+            EnterButton.gameObject.SetActive(false); // 탑승버튼 비활성
+            ExitButton.gameObject.SetActive(true); // 나가기버튼 활성
+
+            MainCamera.SetActive(false); // 메인카메라 비활성
+            SubCamera.SetActive(true); // 서브카메라 활성
+
             GameManager.Instance.O2 = GameManager.Instance.MaxO2;
             GameManager.Instance.isO2 = false;
-            MainCamera.SetActive(false); // 메인카메라 숨김
-            SubCamera.SetActive(true); // 서브카메라 활성화
-            PlayerOBJ.SetActive(false);
-            DEPButton.gameObject.SetActive(true);
-            EnterButton.gameObject.SetActive(false);
-            ExitButton.gameObject.SetActive(true);
 
         }
 
-        if (x == 1) // 우주선 내리기
+        if (x == 1) // 우주선 내리기 버튼
         {
-            GameManager.Instance.isO2 = true;
-            MainCamera.SetActive(true);
-            SubCamera.SetActive(false);
-            PlayerOBJ.SetActive(true);
+            // TransformPoint: 오브젝트 기준의 상대 위치를 실제 월드 위치로 바꿔주는 함수
+            PlayerOBJ.transform.position = spaceshipTransform.TransformPoint(new Vector3(-3f, 0f, 0f));
+            PlayerOBJ.SetActive(true); // 플레이어 오브젝트 활성
+
+            DEPButton.gameObject.SetActive(false); // 출항 비활성
             TimeText.gameObject.SetActive(false); // 남은 도착 시간 숨김
-            DEPButton.gameObject.SetActive(false); // 출항 숨김
-            ExitButton.gameObject.SetActive(false);
+
+            ExitButton.gameObject.SetActive(false); // 나가기버튼 비활성
+
+            MainCamera.SetActive(true); // 메인카메라 활성
+            SubCamera.SetActive(false); // 서브카메라 비활성
+
+            GameManager.Instance.isO2 = true;
+
         }
     }
 }

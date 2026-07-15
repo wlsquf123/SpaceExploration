@@ -10,25 +10,6 @@ public class SceneManage : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        var mainCam = GameObject.FindGameObjectWithTag("MainCamera");
-        var subCam = GameObject.FindGameObjectWithTag("SubCamera");
-        var player = GameObject.FindGameObjectWithTag("Player");
-
-        TargetUIManager.MainCamera = mainCam;
-        TargetUIManager.SubCamera = subCam;
-        TargetUIManager.PlayerOBJ = player;
-
-        if (player)
-            player.SetActive(false);
-    }
-
     // Update is called once per frame
     void Update()
     {
