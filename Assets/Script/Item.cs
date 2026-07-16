@@ -3,7 +3,7 @@ using UnityEngine;
 public enum Items
 {
     None,
-    iron, // Ã¶ Ã¶ Ã¶ Ã¶ ÀÌ°Åµµ Áß±¹¾î µÇ³ª
+    iron, // Ã¶
     copper, // ±¸¸®
     plastic, // ÇÃ¶ó½ºÆ½
     core // ÄÚ¾î

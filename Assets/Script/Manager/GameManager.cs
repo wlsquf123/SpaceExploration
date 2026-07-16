@@ -12,11 +12,15 @@ public class GameManager : MonoBehaviour
 
     public Transform currentTarget;     // 현재 목적지
 
-    public float spaceshipSpeed; // 속도
+    public float spaceshipSpeed; // 우주선 속도
 
-    public float MaxO2 = 100f;
+    public float Spacebooster; // 우주선 부스터
+    public bool isSpacebooster = true; // 탑승 부스터 사용 : 하선 부스터 사용안함
+    public float Timer = 7f;
+
+    public float MaxO2; // 최대 산소
     public float O2 = 0; // 산소
-    public bool isO2 = false; // 탑승 시 산소 유지 : 하선 시 산소 작동
+    public bool isO2 = false; // 탑승 산소 100% 유지 : 하선 산소 작동
 
     private void Awake()
     {
@@ -28,11 +32,6 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        O2 = MaxO2;
-    }
-
     private void Update()
     {
         O2State(); // 산소 상태
@@ -41,21 +40,30 @@ public class GameManager : MonoBehaviour
         // 인벤토리UI
         if (Input.GetKeyUp(KeyCode.I))
         {
-            UIManager.InventoryUI.gameObject.SetActive(!UIManager.InventoryUI.activeSelf);
+            UIManager.InventoryUI.gameObject.SetActive(true);
+        }
+
+        // 우주선 부스터
+        if (Input.GetKey(KeyCode.Space) && Timer >= 0 && isSpacebooster)
+        {
+            Timer -= Time.deltaTime;
+            spaceshipSpeed = UpgradeManager.wall[UpgradeManager.wallLevel] + UpgradeManager.engine[UpgradeManager.engineLevel];
+        }
+        else
+        {
+            spaceshipSpeed = UpgradeManager.engine[UpgradeManager.engineLevel];
+            if (!Input.GetKey(KeyCode.Space) && Timer <= 7f)
+            {
+                Timer += Time.deltaTime;
+            }
         }
     }
 
     public void Test()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            // 엔진 테스트
-            UpgradeManager.EngineUpgrade();
-        }
-
+        // 산소 테스트
         if (Input.GetKeyDown(KeyCode.C))
         {
-            // 산소 테스트
             UpgradeManager.O2Upgrade();
         }
         
