@@ -5,8 +5,6 @@ public class SpaceshipAutomation : MonoBehaviour
     float moveSpeed;    // 전진 속도
     public float turnSpeed = 1.0f;     // 회전 속도
 
-    public float Timer = 7f; // 7초
-
     void Update()
     {
         moveSpeed = GameManager.Instance.spaceshipSpeed; // 속도

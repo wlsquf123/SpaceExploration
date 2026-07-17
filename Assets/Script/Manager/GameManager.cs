@@ -8,17 +8,17 @@ public class GameManager : MonoBehaviour
     public SceneManage SceneManager;
     public Inventory Inventory;
 
-    public Transform moonObject; // 달 오브젝트
+    public Transform moonTransform; // 달 위치
+    public Transform marsTransform; // 화성 위치 
+    public Transform europaTransform; // 유로파 위치 
 
     public Transform currentTarget;     // 현재 목적지
 
     public float spaceshipSpeed; // 우주선 속도
 
-    public float Spacebooster; // 우주선 부스터
-    public bool isSpacebooster = true; // 탑승 부스터 사용 : 하선 부스터 사용안함
-    public float Timer = 7f;
+    public bool isSpacebooster = false; // 탑승 부스터 사용 : 하선 부스터 사용안함
+    public float BoosterTimer = 7f;
 
-    public float MaxO2; // 최대 산소
     public float O2 = 0; // 산소
     public bool isO2 = false; // 탑승 산소 100% 유지 : 하선 산소 작동
 
@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void Start()
+    {
+        O2 = UpgradeManager.MaxO2[UpgradeManager.O2Level];
+    }
     private void Update()
     {
         O2State(); // 산소 상태
@@ -44,29 +48,28 @@ public class GameManager : MonoBehaviour
         }
 
         // 우주선 부스터
-        if (Input.GetKey(KeyCode.Space) && Timer >= 0 && isSpacebooster)
+        if (Input.GetKey(KeyCode.Space) && BoosterTimer >= 0 && isSpacebooster)
         {
-            Timer -= Time.deltaTime;
+            //(7) 엔진 부스터는 발동되는 시간이 누적될수록 엔진 부스터 속도가 초당 10%씩 증가한다.
+            BoosterTimer -= Time.deltaTime; // 감소
             spaceshipSpeed = UpgradeManager.wall[UpgradeManager.wallLevel] + UpgradeManager.engine[UpgradeManager.engineLevel];
         }
         else
         {
             spaceshipSpeed = UpgradeManager.engine[UpgradeManager.engineLevel];
-            if (!Input.GetKey(KeyCode.Space) && Timer <= 7f)
+            if (!Input.GetKey(KeyCode.Space) && BoosterTimer <= 7f)
             {
-                Timer += Time.deltaTime;
+                BoosterTimer += Time.deltaTime;
             }
         }
     }
 
     public void Test()
     {
-        // 산소 테스트
         if (Input.GetKeyDown(KeyCode.C))
         {
             UpgradeManager.O2Upgrade();
         }
-        
     }
 
     public void Arrived()
@@ -74,6 +77,7 @@ public class GameManager : MonoBehaviour
         currentTarget = null;
         UIManager.DEPButton.gameObject.SetActive(true);
         UIManager.ExitButton.gameObject.SetActive(true);
+        isSpacebooster = false;
     }
 
     public void O2State() //산소 상태

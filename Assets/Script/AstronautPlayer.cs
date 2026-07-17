@@ -14,9 +14,6 @@ namespace AstronautPlayer
 
         public Transform firstPersonCamera;
 
-        // 카메라의 상하 회전각을 누적해서 저장할 변수
-        private float currentXRotation = 0f;
-
         void Update()
         {
             float xInput = 0f;

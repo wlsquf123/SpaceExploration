@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Button DEPButton; // 출항
-    public Text TimeText; // 도착 남은 시간
-
     public Transform spaceshipTransform; // 우주선 위치값
+    public Text TimeText; // 도착 남은 시간
 
     public Button EnterButton; // 우주선 탑승
     public Button ExitButton; // 우주선 내리기
@@ -18,9 +17,12 @@ public class UIManager : MonoBehaviour
 
     public GameObject PlayerOBJ; // 플레이어 오브젝트
     public GameObject InventoryUI; // 인벤토리 UI
+    public GameObject UpgradeUI; // 업그레이드 UI
 
     public Text O2Text; // 산소 텍스트
     public Image O2Image; // 산소 이미지
+
+    public Image boosterBar; // 부스터바
 
     public Text[] ironText = new Text[3]; // 철 텍스트
     public Text[] copperText = new Text[3]; // 구리 텍스트
@@ -56,7 +58,8 @@ public class UIManager : MonoBehaviour
     public void State()
     {
         O2Text.text = GameManager.Instance.O2.ToString("F0") + "%"; // 산소량
-        O2Image.fillAmount = GameManager.Instance.O2 / GameManager.Instance.MaxO2;
+        O2Image.fillAmount = GameManager.Instance.O2 / GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
+        boosterBar.fillAmount = GameManager.Instance.BoosterTimer /  7;
 
         ironText[0].text = GameManager.Instance.Inventory.iron[0].ToString();
         ironText[1].text = GameManager.Instance.Inventory.iron[1].ToString();
@@ -78,7 +81,8 @@ public class UIManager : MonoBehaviour
     {
         if (index == 1) // 달 이동
         {
-            GameManager.Instance.currentTarget = GameManager.Instance.moonObject;
+            GameManager.Instance.currentTarget = GameManager.Instance.moonTransform; // 현재타겟을 달위치로
+            GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
             DEPButton.gameObject.SetActive(false);
             TimeText.gameObject.SetActive(true);
         }
@@ -92,6 +96,7 @@ public class UIManager : MonoBehaviour
             PlayerOBJ.SetActive(false); // 플레이어 오브젝트 비활성
 
             DEPButton.gameObject.SetActive(true); // 출항버튼 활성
+            boosterBar.gameObject.SetActive(true); // 부스터바 활성
 
             EnterButton.gameObject.SetActive(false); // 탑승버튼 비활성
             ExitButton.gameObject.SetActive(true); // 나가기버튼 활성
@@ -99,19 +104,19 @@ public class UIManager : MonoBehaviour
             MainCamera.SetActive(false); // 메인카메라 비활성
             SubCamera.SetActive(true); // 서브카메라 활성
 
-            GameManager.Instance.O2 = GameManager.Instance.MaxO2;
+            GameManager.Instance.O2 = GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
             GameManager.Instance.isO2 = false;
 
         }
 
         if (x == 1) // 우주선 내리기 버튼
         {
-            // TransformPoint: 오브젝트 기준의 상대 위치를 실제 월드 위치로 바꿔주는 함수
             PlayerOBJ.transform.position = spaceshipTransform.TransformPoint(new Vector3(-3f, 0f, 0f));
             PlayerOBJ.SetActive(true); // 플레이어 오브젝트 활성
 
             DEPButton.gameObject.SetActive(false); // 출항 비활성
             TimeText.gameObject.SetActive(false); // 남은 도착 시간 숨김
+            boosterBar.gameObject.SetActive(false); // 부스터바 숨김
 
             ExitButton.gameObject.SetActive(false); // 나가기버튼 비활성
 
