@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public float O2 = 0; // 산소
     public bool isO2 = false; // 탑승 산소 100% 유지 : 하선 산소 작동
 
+    public int Kg; // 무게
+
     private void Awake()
     {
         if (Instance == null)

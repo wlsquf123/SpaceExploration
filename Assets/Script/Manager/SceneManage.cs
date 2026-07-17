@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneManage : MonoBehaviour
 {
-    public UIManager TargetUIManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

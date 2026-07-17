@@ -40,7 +40,8 @@ public class UpgradeManager : MonoBehaviour
                 engineLevel++;
                 GameManager.Instance.spaceshipSpeed = engine[engineLevel]; // 우주선 속도
                 GameManager.Instance.Inventory.iron[0] -= 3; // 철 3개 차감
-                GameManager.Instance.Inventory.copper[0] -= 3; // 구리 3개 차감                              
+                GameManager.Instance.Inventory.copper[0] -= 3; // 구리 3개 차감
+                
             }
             else if (engineLevel == 2 && GameManager.Instance.Inventory.iron[1] >= 3 && GameManager.Instance.Inventory.copper[1] >= 3)
             {
@@ -112,6 +113,7 @@ public class UpgradeManager : MonoBehaviour
             {
                 // 철 Lv1 3개 + 플라스틱 Lv1 3개
                 suitLevel++;
+                GameManager.Instance.Kg = Suit[suitLevel];
                 GameManager.Instance.Inventory.iron[0] -= 3;
                 GameManager.Instance.Inventory.plastic[0] -= 3;
             }
@@ -119,6 +121,7 @@ public class UpgradeManager : MonoBehaviour
             {
                 // 철 Lv2 3개 + 플라스틱 Lv2 3개
                 suitLevel++;
+                GameManager.Instance.Kg = Suit[suitLevel];
                 GameManager.Instance.Inventory.iron[1] -= 3;
                 GameManager.Instance.Inventory.plastic[1] -= 3;
             }

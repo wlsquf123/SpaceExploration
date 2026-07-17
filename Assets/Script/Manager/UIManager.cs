@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+
     public Button DEPButton; // 출항
     public Transform spaceshipTransform; // 우주선 위치값
     public Text TimeText; // 도착 남은 시간
@@ -85,6 +86,12 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
             DEPButton.gameObject.SetActive(false);
             TimeText.gameObject.SetActive(true);
+        }
+
+        if (index == 2) // 화성 이동
+        {
+            GameManager.Instance.currentTarget = GameManager.Instance.marsTransform; // 현재타겟을 화성위치로
+            GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
         }
     }
 
