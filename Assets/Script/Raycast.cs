@@ -37,41 +37,100 @@ public class Raycast : MonoBehaviour
                 // E키로 자원 수집
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    float r = Random.value * 100;
+                    float r = Random.value * 100; // 자원의 개수를 구하는 확률 
 
-                    if (GameManager.Instance.UpgradeManager.suitLevel == 1 && GameManager.Instance.Inventory.Limit(item.ItemType, 1))
+                    int add = 0; // 실제로 획득할 개수
+
+                    // 우주복 Lv1
+                    if (GameManager.Instance.UpgradeManager.suitLevel == 1)
                     {
-                        Inventory.AddItem(item.ItemType, item.LevelType, 1);
+                        if (Inventory.Limit(item.ItemType, 1))
+                        {
+                            add = 1;
+                        }
                     }
+
+                    // 우주복 Lv2
                     else if (GameManager.Instance.UpgradeManager.suitLevel == 2)
                     {
-                        if (r <= 20f && GameManager.Instance.Inventory.Limit(item.ItemType, 2))
+                        // 20% 확률로 2개 획득 시도
+                        if (r <= 20f)
                         {
-                            Inventory.AddItem(item.ItemType, item.LevelType, 2);
+                            if (Inventory.Limit(item.ItemType, 2))
+                            {
+                                add = 2;
+                            }
+                            else if (Inventory.Limit(item.ItemType, 1))
+                            {
+                                add = 1;
+                            }
                         }
-                        else if (GameManager.Instance.Inventory.Limit(item.ItemType, 1))
+                        else
                         {
-                            Inventory.AddItem(item.ItemType, item.LevelType, 1);
+                            if (Inventory.Limit(item.ItemType, 1))
+                            {
+                                add = 1;
+                            }
                         }
                     }
+
+                    // 우주복 Lv3
                     else if (GameManager.Instance.UpgradeManager.suitLevel == 3)
                     {
-                        if (r <= 15f && GameManager.Instance.Inventory.Limit(item.ItemType, 3))
+                        // 15% 확률로 3개 획득 시도
+                        if (r <= 15f)
                         {
-                            Inventory.AddItem(item.ItemType, item.LevelType, 3);
+                            if (Inventory.Limit(item.ItemType, 3))
+                            {
+                                add = 3;
+                            }
+                            else if (Inventory.Limit(item.ItemType, 2))
+                            {
+                                add = 2;
+                            }
+                            else if (Inventory.Limit(item.ItemType, 1))
+                            {
+                                add = 1;
+                            }
                         }
-                        else if (r <= 45f && GameManager.Instance.Inventory.Limit(item.ItemType, 2))
+
+                        // 30% 확률로 2개 획득 시도
+                        else if (r <= 45f)
                         {
-                            Inventory.AddItem(item.ItemType, item.LevelType, 2);
+                            if (Inventory.Limit(item.ItemType, 2))
+                            {
+                                add = 2;
+                            }
+                            else if (Inventory.Limit(item.ItemType, 1))
+                            {
+                                add = 1;
+                            }
                         }
-                        else if (GameManager.Instance.Inventory.Limit(item.ItemType, 1))
+
+                        // 나머지는 1개 획득 시도
+                        else
                         {
-                            Inventory.AddItem(item.ItemType, item.LevelType, 1);
-                            
+                            if (Inventory.Limit(item.ItemType, 1))
+                            {
+                                add = 1;
+                            }
                         }
                     }
-                    currentItem = null;
-                    Destroy(item.gameObject);
+
+                    // 한 개 이상 들어갈 공간이 있을 때만 획득
+                    if (add > 0)
+                    {
+                        Inventory.AddItem(item.ItemType, item.LevelType, add);
+
+                        Debug.Log(add + "개 획득");
+
+                        currentItem = null;
+                        Destroy(item.gameObject);
+                    }
+                    else
+                    {
+                        Debug.Log("인벤토리 무게가 가득 찼습니다.");
+                    }
                 }
                 return;
             }
