@@ -37,15 +37,45 @@ public class Raycast : MonoBehaviour
                 // E키로 자원 수집
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    Inventory.AddItem(item.ItemType, item.LevelType, 1);
-                    currentItem = null;
+                    float r = Random.value * 100;
 
+                    if (GameManager.Instance.UpgradeManager.suitLevel == 1 && GameManager.Instance.Inventory.Limit(item.ItemType, 1))
+                    {
+                        Inventory.AddItem(item.ItemType, item.LevelType, 1);
+                    }
+                    else if (GameManager.Instance.UpgradeManager.suitLevel == 2)
+                    {
+                        if (r <= 20f && GameManager.Instance.Inventory.Limit(item.ItemType, 2))
+                        {
+                            Inventory.AddItem(item.ItemType, item.LevelType, 2);
+                        }
+                        else if (GameManager.Instance.Inventory.Limit(item.ItemType, 1))
+                        {
+                            Inventory.AddItem(item.ItemType, item.LevelType, 1);
+                        }
+                    }
+                    else if (GameManager.Instance.UpgradeManager.suitLevel == 3)
+                    {
+                        if (r <= 15f && GameManager.Instance.Inventory.Limit(item.ItemType, 3))
+                        {
+                            Inventory.AddItem(item.ItemType, item.LevelType, 3);
+                        }
+                        else if (r <= 45f && GameManager.Instance.Inventory.Limit(item.ItemType, 2))
+                        {
+                            Inventory.AddItem(item.ItemType, item.LevelType, 2);
+                        }
+                        else if (GameManager.Instance.Inventory.Limit(item.ItemType, 1))
+                        {
+                            Inventory.AddItem(item.ItemType, item.LevelType, 1);
+                            
+                        }
+                    }
+                    currentItem = null;
                     Destroy(item.gameObject);
                 }
                 return;
             }
         }
-
         // 자원을 바라보지 않는 경우
         if (currentItem != null)
         {

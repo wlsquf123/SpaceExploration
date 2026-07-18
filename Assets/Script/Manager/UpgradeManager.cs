@@ -157,9 +157,8 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetSuit()
     {
-
+        return Suit[suitLevel];
     }
 }

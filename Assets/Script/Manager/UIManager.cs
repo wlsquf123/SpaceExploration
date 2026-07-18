@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
 
     public Image boosterBar; // 부스터바
 
+    public Text KgText;
+
     public Text[] ironText = new Text[3]; // 철 텍스트
     public Text[] copperText = new Text[3]; // 구리 텍스트
     public Text[] plasticText = new Text[3]; // 플라스틱 텍스트
@@ -60,7 +62,20 @@ public class UIManager : MonoBehaviour
     {
         O2Text.text = GameManager.Instance.O2.ToString("F0") + "%"; // 산소량
         O2Image.fillAmount = GameManager.Instance.O2 / GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
-        boosterBar.fillAmount = GameManager.Instance.BoosterTimer /  7;
+        boosterBar.fillAmount = GameManager.Instance.BoosterTimer / 7;
+
+        if ((float)GameManager.Instance.Inventory.InventoryKg() / GameManager.Instance.UpgradeManager.Suit[GameManager.Instance.UpgradeManager.suitLevel] * 100f >= 81f)
+        {
+            KgText.text = "인벤토리\n 3단계 " + GameManager.Instance.Inventory.InventoryKg().ToString() + "kg";
+        }
+        else if ((float)GameManager.Instance.Inventory.InventoryKg() / GameManager.Instance.UpgradeManager.Suit[GameManager.Instance.UpgradeManager.suitLevel] * 100f >= 41f)
+        {
+            KgText.text = "인벤토리\n 2단계 " + GameManager.Instance.Inventory.InventoryKg().ToString() + "kg";
+        }
+        else
+        {
+            KgText.text = "인벤토리\n 1단계 " + GameManager.Instance.Inventory.InventoryKg().ToString() + "kg";
+        }
 
         ironText[0].text = GameManager.Instance.Inventory.iron[0].ToString();
         ironText[1].text = GameManager.Instance.Inventory.iron[1].ToString();
@@ -86,12 +101,16 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
             DEPButton.gameObject.SetActive(false);
             TimeText.gameObject.SetActive(true);
+            ExitButton.gameObject.SetActive(false); // 나가기버튼 활성
         }
 
         if (index == 2) // 화성 이동
         {
             GameManager.Instance.currentTarget = GameManager.Instance.marsTransform; // 현재타겟을 화성위치로
             GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
+            DEPButton.gameObject.SetActive(false);
+            TimeText.gameObject.SetActive(true);
+            ExitButton.gameObject.SetActive(false); // 나가기버튼 활성
         }
     }
 
