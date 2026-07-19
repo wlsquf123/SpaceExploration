@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            TimeText.text = "";
+            TimeText.gameObject.SetActive(false);
         }
     }
 

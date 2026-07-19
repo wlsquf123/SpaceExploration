@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public float spaceshipSpeed; // 우주선 속도
 
+    public GameObject boosterEffect; // 부스터파티클
     public bool isSpacebooster = false; // 탑승 부스터 사용 : 하선 부스터 사용안함
     public float BoosterTimer = 7f;
 
@@ -55,9 +56,11 @@ public class GameManager : MonoBehaviour
             //(7) 엔진 부스터는 발동되는 시간이 누적될수록 엔진 부스터 속도가 초당 10%씩 증가한다.
             BoosterTimer -= Time.deltaTime; // 감소
             spaceshipSpeed = UpgradeManager.wall[UpgradeManager.wallLevel] + UpgradeManager.engine[UpgradeManager.engineLevel];
+            boosterEffect.gameObject.SetActive(true);
         }
         else
         {
+            boosterEffect.gameObject.SetActive(false);
             spaceshipSpeed = UpgradeManager.engine[UpgradeManager.engineLevel];
             if (!Input.GetKey(KeyCode.Space) && BoosterTimer <= 7f)
             {
