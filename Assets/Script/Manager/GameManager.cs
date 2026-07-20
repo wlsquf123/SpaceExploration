@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public Transform europaTransform; // 유로파 위치 
 
     public Transform currentTarget;     // 현재 목적지
-
+    public bool isFlying = false; // 날고 있는가?
     public float spaceshipSpeed; // 우주선 속도
 
     public GameObject boosterEffect; // 부스터파티클
@@ -51,18 +51,18 @@ public class GameManager : MonoBehaviour
         }
 
         // 우주선 부스터
-        if (Input.GetKey(KeyCode.Space) && BoosterTimer >= 0 && isSpacebooster)
+        if (Input.GetKey(KeyCode.Space) && BoosterTimer > 0 && isFlying)
         {
-            //(7) 엔진 부스터는 발동되는 시간이 누적될수록 엔진 부스터 속도가 초당 10%씩 증가한다.
+            if (UpgradeManager.engineBreakdown == true || UpgradeManager.wallBreakdown == true || UpgradeManager.O2Breakdown == true) return; // 고장 여부
             BoosterTimer -= Time.deltaTime; // 감소
-            spaceshipSpeed = UpgradeManager.wall[UpgradeManager.wallLevel] + UpgradeManager.engine[UpgradeManager.engineLevel];
             boosterEffect.gameObject.SetActive(true);
+            spaceshipSpeed = UpgradeManager.wall[UpgradeManager.wallLevel] + UpgradeManager.engine[UpgradeManager.engineLevel];
         }
         else
         {
             boosterEffect.gameObject.SetActive(false);
             spaceshipSpeed = UpgradeManager.engine[UpgradeManager.engineLevel];
-            if (!Input.GetKey(KeyCode.Space) && BoosterTimer <= 7f)
+            if (BoosterTimer <= 7f && !Input.GetKey(KeyCode.Space))
             {
                 BoosterTimer += Time.deltaTime;
             }
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         currentTarget = null;
         UIManager.DEPButton.gameObject.SetActive(true);
         UIManager.ExitButton.gameObject.SetActive(true);
-        isSpacebooster = false;
+        isFlying = false;
     }
 
     public void O2State() //산소 상태
@@ -97,6 +97,4 @@ public class GameManager : MonoBehaviour
             UIManager.ExitButtons(0);
         }
     }
-
-    
 }

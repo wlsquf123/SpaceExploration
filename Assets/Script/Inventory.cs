@@ -10,7 +10,49 @@ public class Inventory : MonoBehaviour
 
     public int[] core = { 0, 0 }; // 코어
 
-    float Timer;
+    float Timer; // 타이머
+
+    void Update()
+    {
+        if (GameManager.Instance.UpgradeManager.robot[GameManager.Instance.UpgradeManager.robotLevel] == 0) return;
+        if (GameManager.Instance.UpgradeManager.robotBreakdown == true) return;
+        RandomRobot();
+    }
+
+    public void RandomRobot()
+    {
+        int r = Random.Range(1, 4);
+        int index = GameManager.Instance.UpgradeManager.robotLevel;
+        Timer += Time.deltaTime;
+        if (Timer >= 3)
+        {
+            if (r == 1)
+            {
+                iron[0] += index;
+            }
+            else if (r == 2)
+            {
+                copper[0] += index;
+            }
+            else if (r == 3)
+            {
+                plastic[0] += index;
+            }
+            Timer = 0;
+            GameManager.Instance.UpgradeManager.robotCount++;
+        }
+    }
+
+    public bool Limit(Items itemstype, int num)
+    {
+        // 아이템을 얻은 후 최대 무게를 초과하는지 검사
+        if (InventoryKg() + num > GameManager.Instance.UpgradeManager.GetSuit())
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public int InventoryKg() // 인벤토리 무게 계산
     {
@@ -36,41 +78,6 @@ public class Inventory : MonoBehaviour
         hap += core[1] * 6;
 
         return hap;
-    }
-
-    public bool Limit(Items itemstype, int num)
-    {
-        // 아이템을 얻은 후 최대 무게를 초과하는지 검사
-        if (InventoryKg() + num > GameManager.Instance.UpgradeManager.GetSuit())
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public void RandomRobot()
-    {
-        int r = Random.Range(1, 4);
-        int index = GameManager.Instance.UpgradeManager.robotLevel;
-        // 자원 수집 50회당 고장 발생 - 자동채집 불가
-        if (Timer >= 3)
-        {
-            if (r == 1)
-            {
-                iron[0] += index;
-            }
-            else if (r == 2)
-            {
-                copper[0] += index;
-            }
-            else if (r == 3)
-            {
-                plastic[0] += index;
-            }
-
-            Timer = 0;
-        }
     }
 
     public void AddItem(Items ItemType, Levels LvType, int add) // 어떤 자원의 어떤 레벨을 몇 개 추가할지 받는다.
@@ -102,7 +109,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void grgong(int index)
+    public void gagong(int index)
     {
         // 철 Lv1 가공 
         if (index == 1 && iron[0] >= 2) 
@@ -145,12 +152,5 @@ public class Inventory : MonoBehaviour
             plastic[1] -= 2;
             plastic[2] += 1;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        RandomRobot();
-        Timer += Time.deltaTime;
     }
 }

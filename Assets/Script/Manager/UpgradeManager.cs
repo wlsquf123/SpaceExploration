@@ -18,16 +18,71 @@ public class UpgradeManager : MonoBehaviour
     public int[] Suit = { 0, 100, 200, 300 }; // 우주복
     public int[] robot = { 0, 1, 2, 3 }; // 채집로봇
 
-    public GameObject engineOBJ;
-    public GameObject wallOBJ;
-    public GameObject O2OBJ;
-    public GameObject robotOBJ;
+    public float Timer;
+
+    public bool engineBreakdown = false; // 고장 여부
+    public bool wallBreakdown = false;
+    public bool O2Breakdown = false;
+    public bool robotBreakdown = false;
+    public int robotCount; // 자동채집 카운트 (숫자세기)
 
     // { 엔진과 외벽이 같은 레벨 이상일 경우 우주선 외형 변경 }
 
     void Start()
     {
         GameManager.Instance.spaceshipSpeed = engine[engineLevel]; // 우주선 속도
+    }
+
+    private void Update()
+    {
+        // 채집로봇 고장
+        if (robotBreakdown == false)
+        {
+            if (robotCount >= 50)
+            {
+                robotBreakdown = true;
+                Debug.Log("채집로봇 고장");
+            }
+        }
+        if (GameManager.Instance.isFlying == false) return;
+        Timer += Time.deltaTime;
+
+        if (Timer >= 1)
+        {
+            // 엔진 고장
+            if (engineBreakdown == false)
+            {
+                int r = Random.Range(0, 100);
+                if (r < 3)
+                {
+                    engineBreakdown = true;
+                    Debug.Log("엔진 고장");
+                }
+            }
+
+            // 외벽 고장
+            if (wallBreakdown == false)
+            {
+                int r = Random.Range(0, 100);
+                if (r < 2)
+                {
+                    wallBreakdown = true;
+                    Debug.Log("외벽 고장");
+                }
+            }
+
+            // 산소 고장
+            if (O2Breakdown == false)
+            {
+                int r = Random.Range(0, 100);
+                if (r < 1)
+                {
+                    O2Breakdown = true;
+                    Debug.Log("산소탱크 고장");
+                }
+            }
+            Timer = 0;
+        }
     }
 
     public void EngineUpgrade()

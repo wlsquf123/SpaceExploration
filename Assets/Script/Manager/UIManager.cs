@@ -97,6 +97,7 @@ public class UIManager : MonoBehaviour
     {
         if (index == 1) // 달 이동
         {
+            GameManager.Instance.isFlying = true; // 나는중
             GameManager.Instance.currentTarget = GameManager.Instance.moonTransform; // 현재타겟을 달위치로
             GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
             DEPButton.gameObject.SetActive(false);
@@ -106,6 +107,7 @@ public class UIManager : MonoBehaviour
 
         if (index == 2) // 화성 이동
         {
+            GameManager.Instance.isFlying = true; // 나는중
             GameManager.Instance.currentTarget = GameManager.Instance.marsTransform; // 현재타겟을 화성위치로
             GameManager.Instance.isSpacebooster = true; // 우주선 부스터 작동
             DEPButton.gameObject.SetActive(false);
@@ -130,14 +132,14 @@ public class UIManager : MonoBehaviour
             MainCamera.SetActive(false); // 메인카메라 비활성
             SubCamera.SetActive(true); // 서브카메라 활성
 
-            GameManager.Instance.O2 = GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
+            //GameManager.Instance.O2 = GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
             GameManager.Instance.isO2 = false;
 
         }
 
         if (x == 1) // 우주선 내리기 버튼
         {
-            PlayerOBJ.transform.position = spaceshipTransform.TransformPoint(new Vector3(-3f, 0f, 0f));
+            PlayerOBJ.transform.position = spaceshipTransform.TransformPoint(new Vector3(-1.3f, 1f, 0f));
             PlayerOBJ.SetActive(true); // 플레이어 오브젝트 활성
 
             DEPButton.gameObject.SetActive(false); // 출항 비활성
