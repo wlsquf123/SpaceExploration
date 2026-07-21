@@ -71,10 +71,7 @@ public class GameManager : MonoBehaviour
 
     public void Test()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            UpgradeManager.O2Upgrade();
-        }
+
     }
 
     public void Arrived()
@@ -82,6 +79,7 @@ public class GameManager : MonoBehaviour
         currentTarget = null;
         UIManager.DEPButton.gameObject.SetActive(true);
         UIManager.ExitButton.gameObject.SetActive(true);
+        UIManager.UpgradeButton.SetActive(true);
         isFlying = false;
     }
 

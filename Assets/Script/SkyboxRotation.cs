@@ -8,7 +8,8 @@ public class SkyboxRotation : MonoBehaviour
 
     void Start()
     {
-            rotation = RenderSettings.skybox.GetFloat("_Rotation");
+        rotation = 0;
+        rotation = RenderSettings.skybox.GetFloat("_Rotation");
     }
 
     void Update()
