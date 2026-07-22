@@ -7,7 +7,6 @@ public enum Items
     copper, // 구리
     plastic, // 플라스틱
     core // 코어
-    
 }
 
 public enum Levels
@@ -24,15 +23,4 @@ public class Item : MonoBehaviour
     public Items ItemType;
 
     public GameObject isLight; // 빛 활성화
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -21,22 +21,22 @@ public class Inventory : MonoBehaviour
 
     public void RandomRobot()
     {
-        int r = Random.Range(1, 4);
-        int index = GameManager.Instance.UpgradeManager.robotLevel;
-        Timer += Time.deltaTime;
+        int random = Random.Range(1, 4);
+        int index = GameManager.Instance.UpgradeManager.robotLevel; // 1레벨이면 똑같이 1씩 얻음
+        Timer += Time.deltaTime; // 타이머 증가
         if (Timer >= 3)
         {
-            if (r == 1)
+            switch (random) // 랜덤 (1이면 철, 2구리, 3플라스틱)
             {
-                iron[0] += index;
-            }
-            else if (r == 2)
-            {
-                copper[0] += index;
-            }
-            else if (r == 3)
-            {
-                plastic[0] += index;
+                case 1:
+                    iron[0] += index;
+                    break;
+                case 2:
+                    copper[0] += index;
+                    break;
+                case 3:
+                    plastic[0] += index;
+                    break;
             }
             Timer = 0;
             GameManager.Instance.UpgradeManager.robotCount++;

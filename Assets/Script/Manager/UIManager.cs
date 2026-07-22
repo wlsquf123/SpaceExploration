@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
 
     public Image boosterBar; // 부스터바
 
-    public Text KgText;
+    public Text KgText; // 무게 텍스트
 
     [Header("자원 텍스트")]
     public Text[] ironText = new Text[3]; // 철 텍스트
@@ -55,10 +55,18 @@ public class UIManager : MonoBehaviour
     public Text O2Wrong;
     public Text robotWrong;
 
-    private void Start()
-    {
-        
-    }
+    [Header("수리 버튼")]
+    public Button engineButtonRepair;
+    public Button wallButtonRepair;
+    public Button O2ButtonRepair;
+    public Button robotButtonRepair;
+
+    [Header("수리 이미지")]
+    public Image engineImageRepair;
+    public Image wallImageRepair;
+    public Image O2ImageRepair;
+    public Image robotImageRepair;
+
 
     // Update is called once per frame
     void Update()
@@ -69,19 +77,16 @@ public class UIManager : MonoBehaviour
         {
             // 우주선과 목표 지점 사이의 실제 거리
             float distance = Vector3.Distance(spaceshipTransform.position, GameManager.Instance.currentTarget.position);
+            float remainingTime;
             if (GameManager.Instance.UpgradeManager.engineBreakdown == false)
             {
-                // 시간 = 거리 / 속도
-                float remainingTime = distance / GameManager.Instance.spaceshipSpeed;
-                TimeText.text = "도착까지 남은시간: " + remainingTime.ToString("F1") + "초";
+                remainingTime = distance / GameManager.Instance.spaceshipSpeed; // 시간 = 거리 / 속도
             }
             else
             {
-                float remainingTime = distance / (GameManager.Instance.spaceshipSpeed / 2);
-                TimeText.text = "도착까지 남은시간: " + remainingTime.ToString("F1") + "초";
+                remainingTime = distance / (GameManager.Instance.spaceshipSpeed / 2);
             }
-
-            
+            TimeText.text = "도착까지 남은시간: " + remainingTime.ToString("F1") + "초";
         }
         else
         {
@@ -95,40 +100,50 @@ public class UIManager : MonoBehaviour
         O2Image.fillAmount = GameManager.Instance.O2 / GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
         boosterBar.fillAmount = GameManager.Instance.BoosterTimer / 7f;
 
-        UpgradeBreakState(engineWrong, GameManager.Instance.UpgradeManager.engineBreakdown); // 고장상태 여부 시스템 
-        UpgradeBreakState(wallWrong, GameManager.Instance.UpgradeManager.wallBreakdown); 
-        UpgradeBreakState(O2Wrong, GameManager.Instance.UpgradeManager.O2Breakdown);
-        UpgradeBreakState(robotWrong, GameManager.Instance.UpgradeManager.robotBreakdown);
-
         int kgLevel;
-        if (GameManager.Instance.Inventory.InventoryKg() / GameManager.Instance.UpgradeManager.GetSuit() * 100 >= 81) kgLevel = 3;
-        else if (GameManager.Instance.Inventory.InventoryKg() / GameManager.Instance.UpgradeManager.GetSuit() * 100 >= 41) kgLevel = 2;
-        else kgLevel = 1;
+        if (GameManager.Instance.Inventory.InventoryKg() / GameManager.Instance.UpgradeManager.GetSuit() * 100 >= 81)
+        {
+            kgLevel = 3;
+        }
+        else if (GameManager.Instance.Inventory.InventoryKg() / GameManager.Instance.UpgradeManager.GetSuit() * 100 >= 41)
+        {
+            kgLevel = 2;
+        }
+        else
+        {
+            kgLevel = 1;
+        }
 
-        KgText.text = "인벤토리\n" + kgLevel +"단계 " + GameManager.Instance.Inventory.InventoryKg().ToString() + "kg";
+        KgText.text = "인벤토리\n" + kgLevel + "단계 " + GameManager.Instance.Inventory.InventoryKg().ToString() + "kg";
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++) // 자원 텍스트
         {
             ironText[i].text = GameManager.Instance.Inventory.iron[i].ToString();
             copperText[i].text = GameManager.Instance.Inventory.copper[i].ToString();
             plasticText[i].text = GameManager.Instance.Inventory.plastic[i].ToString();
         }
-
         coreText[0].text = GameManager.Instance.Inventory.core[0].ToString();
         coreText[1].text = GameManager.Instance.Inventory.core[1].ToString();
+
+        UpgradeBreakState(engineWrong, GameManager.Instance.UpgradeManager.engineBreakdown, engineButtonRepair); // 엔진 고장상태 여부 시스템 
+        UpgradeBreakState(wallWrong, GameManager.Instance.UpgradeManager.wallBreakdown, wallButtonRepair); // 외벽 고장상태 여부
+        UpgradeBreakState(O2Wrong, GameManager.Instance.UpgradeManager.O2Breakdown, O2ButtonRepair); // 산소 고장 여부
+        UpgradeBreakState(robotWrong, GameManager.Instance.UpgradeManager.robotBreakdown, robotButtonRepair); // 채집로봇 고장 여부
     }
 
-    public void UpgradeBreakState(Text stateText, bool isBreak)
+    public void UpgradeBreakState(Text stateText, bool isBreak, Button repair)
     {
         if (isBreak == false)
         {
             stateText.text = "정상";
             stateText.color = Color.green;
+            repair.gameObject.SetActive(false);
         }
         else
         {
             stateText.text = "고장";
             stateText.color = Color.red;
+            repair.gameObject.SetActive(true);
         }
     }
 
@@ -141,25 +156,22 @@ public class UIManager : MonoBehaviour
         ExitButton.gameObject.SetActive(false); // 나가기버튼 숨김
         UpgradeButton.SetActive(false); // 업그레이드버튼 숨김
 
-        if (index == 1) // 달 이동
+        switch (index) // 우주선 위치 이동
         {
-            GameManager.Instance.currentTarget = GameManager.Instance.moonTransform; // 현재타겟을 달위치로
-        }
-
-        if (index == 2) // 화성 이동
-        {
-            GameManager.Instance.currentTarget = GameManager.Instance.marsTransform; // 현재타겟을 화성위치로
-        }
-
-        if (index == 3) // 화성 이동
-        {
-            
+            case 1:
+                GameManager.Instance.currentTarget = GameManager.Instance.moonTransform;
+                break;
+            case 2:
+                GameManager.Instance.currentTarget = GameManager.Instance.marsTransform; // 현재타겟을 화성위치로
+                break;
+            case 3:
+                // 추가 예정
+                break;
         }
     }
 
     public void ExitButtons(int x)
     {
-
         if (x == 0) // 우주선 타기
         {
             PlayerOBJ.SetActive(false); // 플레이어 오브젝트 비활성
@@ -173,7 +185,6 @@ public class UIManager : MonoBehaviour
             MainCamera.SetActive(false); // 메인카메라 비활성
             SubCamera.SetActive(true); // 서브카메라 활성
 
-            //GameManager.Instance.O2 = GameManager.Instance.UpgradeManager.MaxO2[GameManager.Instance.UpgradeManager.O2Level];
             GameManager.Instance.isO2 = false;
             UpgradeButton.SetActive(true);
 
@@ -195,7 +206,6 @@ public class UIManager : MonoBehaviour
 
             GameManager.Instance.isO2 = true;
             UpgradeButton.SetActive(false);
-
         }
     }
 
@@ -219,36 +229,82 @@ public class UIManager : MonoBehaviour
 
         EndPanel.SetActive(false);
 
-        if (index == 1)
+        switch (index)
         {
-            if (GameManager.Instance.UpgradeManager.engineLevel == 1) EnginePanel.SetActive(true);
-            else if (GameManager.Instance.UpgradeManager.engineLevel == 2) EnginePanel2.SetActive(true);
-            else EndPanel.SetActive(true);
-        }
-        if (index == 2)
-        {
-            if (GameManager.Instance.UpgradeManager.wallLevel == 1) wallPanel.SetActive(true);
-            else if (GameManager.Instance.UpgradeManager.wallLevel == 2) wallPanel2.SetActive(true);
-            else EndPanel.SetActive (true);
-        }
-        if (index == 3)
-        {
-            if (GameManager.Instance.UpgradeManager.O2Level == 1) O2Panel.SetActive(true);
-            else if (GameManager.Instance.UpgradeManager.O2Level == 2) O2Panel2.SetActive(true);
-            else EndPanel.SetActive(true);
-        }
-        if (index == 4)
-        {
-            if (GameManager.Instance.UpgradeManager.suitLevel == 1) suitPanel.SetActive(true);
-            else if (GameManager.Instance.UpgradeManager.suitLevel == 2) suitPanel2.SetActive(true);
-            else EndPanel.SetActive(true);
-        }
-        if (index == 5)
-        {
-            if (GameManager.Instance.UpgradeManager.robotLevel == 0) robotPanel.SetActive(true);
-            else if (GameManager.Instance.UpgradeManager.robotLevel == 1) robotPanel2.SetActive(true);
-            else if (GameManager.Instance.UpgradeManager.robotLevel == 2) robotPanel3.SetActive(true);
-            else EndPanel.SetActive(true);
+            case 1:
+                if (GameManager.Instance.UpgradeManager.engineLevel == 1)
+                {
+                    EnginePanel.SetActive(true);
+                }
+                else if (GameManager.Instance.UpgradeManager.engineLevel == 2)
+                {
+                    EnginePanel2.SetActive(true);
+                }
+                else
+                {
+                    EndPanel.SetActive(true);
+                }
+                break;
+            case 2:
+                if (GameManager.Instance.UpgradeManager.wallLevel == 1)
+                {
+                    wallPanel.SetActive(true);
+                }
+                else if (GameManager.Instance.UpgradeManager.wallLevel == 2)
+                {
+                    wallPanel2.SetActive(true);
+                }
+                else
+                {
+                    EndPanel.SetActive(true);
+                }
+                break;
+            case 3:
+                if (GameManager.Instance.UpgradeManager.O2Level == 1)
+                {
+                    O2Panel.SetActive(true);
+                }
+                else if (GameManager.Instance.UpgradeManager.O2Level == 2)
+                {
+                    O2Panel2.SetActive(true);
+                }
+                else
+                {
+                    EndPanel.SetActive(true);
+                }
+                break;
+            case 4:
+                if (GameManager.Instance.UpgradeManager.suitLevel == 1)
+                {
+                    suitPanel.SetActive(true);
+                }
+                else if (GameManager.Instance.UpgradeManager.suitLevel == 2)
+                {
+                    suitPanel2.SetActive(true);
+                }
+                else
+                {
+                    EndPanel.SetActive(true);
+                }
+                break;
+            case 5:
+                if (GameManager.Instance.UpgradeManager.robotLevel == 0)
+                {
+                    robotPanel.SetActive(true);
+                }
+                else if (GameManager.Instance.UpgradeManager.robotLevel == 1)
+                {
+                    robotPanel2.SetActive(true);
+                }
+                else if (GameManager.Instance.UpgradeManager.robotLevel == 2)
+                {
+                    robotPanel3.SetActive(true);
+                }
+                else
+                {
+                    EndPanel.SetActive(true);
+                }
+                break;
         }
     }
 }

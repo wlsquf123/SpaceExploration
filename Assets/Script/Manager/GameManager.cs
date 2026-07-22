@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
         if (O2 <= 0)
         {
             UIManager.ExitButtons(0);
+            O2 = UpgradeManager.MaxO2[UpgradeManager.O2Level];
         }
     }
 }

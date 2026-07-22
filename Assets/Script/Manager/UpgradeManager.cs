@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UpgradeManager : MonoBehaviour
 {
+    public MiniGame miniGame;
+
     [Header("레벨")]
     public int engineLevel = 1;
     public int wallLevel = 1;
@@ -231,6 +233,42 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Instance.UIManager.robotPanel3.SetActive(false);
                 GameManager.Instance.UIManager.EndPanel.SetActive(true);
             }
+        }
+    }
+
+    public void RepairButton(int index)
+    {
+
+        if (GameManager.Instance.Inventory.iron[0] < 2 || GameManager.Instance.Inventory.copper[0] < 2 || GameManager.Instance.Inventory.plastic[0] < 2)
+        {
+            Debug.Log("수리 자원 부족!");
+            return;
+        }
+
+        GameManager.Instance.Inventory.iron[0] -= 2;
+        GameManager.Instance.Inventory.copper[0] -= 2;
+        GameManager.Instance.Inventory.plastic[0] -= 2;
+
+        miniGame.RandomMiniGames();
+
+        switch (index)
+        {
+            case 1:
+                engineBreakdown = false;
+                GameManager.Instance.UIManager.engineImageRepair.gameObject.SetActive(false);
+                break;
+            case 2:
+                wallBreakdown = false;
+                GameManager.Instance.UIManager.wallImageRepair.gameObject.SetActive(false);
+                break;
+            case 3:
+                O2Breakdown = false;
+                GameManager.Instance.UIManager.O2ImageRepair.gameObject.SetActive(false);
+                break;
+            case 4:
+                robotBreakdown = false;
+                GameManager.Instance.UIManager.robotImageRepair.gameObject.SetActive(false);
+                break;
         }
     }
 
