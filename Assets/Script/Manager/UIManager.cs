@@ -67,6 +67,8 @@ public class UIManager : MonoBehaviour
     public Image O2ImageRepair;
     public Image robotImageRepair;
 
+    
+
 
     // Update is called once per frame
     void Update()

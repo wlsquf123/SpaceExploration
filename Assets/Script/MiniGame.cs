@@ -17,7 +17,7 @@ public class MiniGame : MonoBehaviour
 
     public void RandomMiniGames()
     {
-        int random = Random.Range(1, 4);
+        int random = Random.Range(1, 2);
 
         switch (random)
         {
@@ -35,18 +35,12 @@ public class MiniGame : MonoBehaviour
         if (letterInput.text == answer)
         {
             Debug.Log("수리 성공!");
-
-            GameManager.Instance.UpgradeManager.RepairSuccess();
-
-            letter.SetActive(false);
+            letter.SetActive(false); // 글자 맞추기 창 나가기
         }
         else
         {
             Debug.Log("수리 실패!");
-
-            GameManager.Instance.UpgradeManager.RepairFail();
-
-            letter.SetActive(false);
+            letter.SetActive(false); // 글자 맞추기 창 나가기
         }
     }
 

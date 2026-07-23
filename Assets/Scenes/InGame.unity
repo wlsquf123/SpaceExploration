@@ -9117,12 +9117,12 @@ GameObject:
   - component: {fileID: 782143458}
   - component: {fileID: 782143457}
   m_Layer: 5
-  m_Name: Image
+  m_Name: letter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &782143456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17973,7 +17973,6 @@ GameObject:
   - component: {fileID: 1572407952}
   - component: {fileID: 1572407951}
   - component: {fileID: 1572407950}
-  - component: {fileID: 1572407949}
   m_Layer: 0
   m_Name: MiniGame
   m_TagString: Untagged
@@ -17994,25 +17993,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 782143456}
-  m_Father: {fileID: 1657825033}
+  m_Father: {fileID: 1991394196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1572407949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572407947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5135090245c5c147829eb28c8913cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!114 &1572407950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19127,11 +19114,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!4 &1657825033 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 40643957968865003, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
-  m_PrefabInstance: {fileID: 1980059072380390921}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1662403434
 GameObject:
   m_ObjectHideFlags: 0
@@ -22513,7 +22495,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1969519199}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MiniGame, Assembly-CSharp
+        m_MethodName: CheckLetter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1969519199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23236,6 +23230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a698d3655969ea44ba5aa2be21291179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1991394196 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7692700111543834692, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+  m_PrefabInstance: {fileID: 1980059072380390921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1992821870
 GameObject:
   m_ObjectHideFlags: 0
@@ -25989,9 +25988,25 @@ PrefabInstance:
       value: 0.27634388
       objectReference: {fileID: 0}
     - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+      propertyPath: letter
+      value: 
+      objectReference: {fileID: 782143455}
+    - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+      propertyPath: miniGame
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
       propertyPath: O2Breakdown
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+      propertyPath: letterInput
+      value: 
+      objectReference: {fileID: 875925313}
+    - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+      propertyPath: letterButton
+      value: 
+      objectReference: {fileID: 1969519198}
     - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
       propertyPath: wallBreakdown
       value: 1
@@ -26004,6 +26019,10 @@ PrefabInstance:
       propertyPath: engineBreakdown
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4436684162072134536, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+      propertyPath: RandomletterText
+      value: 
+      objectReference: {fileID: 952755785}
     - target: {fileID: 4777890441766959871, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
       propertyPath: m_Text
       value: "\uD544\uC694 \uC790\uC6D0 \uAC2F\uC218\nLv1 \uCCA0 2\uAC1C, Lv1 \uAD6C\uB9AC
@@ -26306,7 +26325,7 @@ PrefabInstance:
     - {fileID: 7445843567207594619, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 40643957968865003, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7692700111543834692, guid: 512018974c7c3ac42b480c26d77eb4e4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1572407948}
     m_AddedComponents: []

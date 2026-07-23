@@ -31,6 +31,19 @@ public class UpgradeManager : MonoBehaviour
 
     public GameObject MessageBox;
 
+    [Header("미니게임")]
+    public GameObject letter; // 글자 맞추기
+    public GameObject card; // 카드 게임
+    public GameObject MoveBar; // 움직이는 바 맞추기
+
+    [Header("글자 맞추기 게임")]
+    public Text RandomletterText;
+    public InputField letterInput;
+    public Button letterButton;
+
+    private string[] words = { "바나나", "사과", "옥수수", "딸기", "수박" };
+    private string answer;
+
     // { 엔진과 외벽이 같은 레벨 이상일 경우 우주선 외형 변경 }
 
     void Start()
@@ -247,13 +260,13 @@ public class UpgradeManager : MonoBehaviour
 
         GameManager.Instance.Inventory.iron[0] -= 2;
         GameManager.Instance.Inventory.copper[0] -= 2;
-        GameManager.Instance.Inventory.plastic[0] -= 2;
+        GameManager.Instance.Inventory.plastic[0] -= 2; 
 
-        miniGame.RandomMiniGames();
-
+            RandomMiniGames(index);
         switch (index)
         {
             case 1:
+                
                 engineBreakdown = false;
                 GameManager.Instance.UIManager.engineImageRepair.gameObject.SetActive(false);
                 break;
@@ -270,6 +283,36 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Instance.UIManager.robotImageRepair.gameObject.SetActive(false);
                 break;
         }
+    }
+
+    public void RandomMiniGames(int x)
+    {
+        int random = Random.Range(1, 2);
+
+        switch (random)
+        {
+            case 1: // 글자 맞추기
+                letter.SetActive(true);
+                answer = words[Random.Range(0, words.Length)];
+                RandomletterText.text = answer;
+                letterInput.text = "";
+                if (letterInput.text == answer)
+                {
+                    Debug.Log("수리 성공!");
+                    letter.SetActive(false); // 글자 맞추기 창 나가기
+                }
+                else
+                {
+                    Debug.Log("수리 실패!");
+                    letter.SetActive(false); // 글자 맞추기 창 나가기
+                }
+                break;
+        }
+    }
+
+    public void CheckLetter()
+    {
+        
     }
 
     public int GetSuit()
